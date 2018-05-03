@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" style="margin: 0 auto;background-color: #f7f4f4">
+<head>
+    <meta charset="UTF-8">
+    <title>江南新城</title>
+</head>
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.min.css">
+<script src="bootstrap-3.3.7/js/tests/vendor/jquery.min.js"></script>
+<script src="bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="jquery.min.js"></script>
+
+<style>
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    .index_title{
+        height: 100px;
+        width: 100%;
+        background-color: #eeeeee;
+    }
+    .index_title p{
+        color: #6e6e6e;
+        font-size: 32px;
+        padding-top: 25px;
+        position: absolute;
+        margin-left: 35%;
+    }
+    .index_title img{
+        width: 80px;
+        margin-left: 40px;
+        margin-top: 5px;
+    }
+    .index_xuan p{
+        position: absolute;
+        font-size: 32px;
+    }
+    div,li,ul {
+        margin:0;
+        padding:0;
+    }
+    ul li {
+        list-style:none;
+    }
+    .basic-grey {
+        width:600px;
+        margin:5% 10%;
+    }
+    .basic-grey .Companies {
+        position:relative;
+    }
+    .basic-grey .Companies ul {
+        position:relative;
+        height:210px;
+        width:100%;
+        overflow-y:auto;
+        border:1px solid #DDD;
+        display:none;
+    }
+    .basic-grey .Companies ul li {
+        padding:3px 12px;
+    }
+    .basic-grey .Companies ul li:hover {
+        background-color:#bebebe;
+        cursor:pointer;
+    }
+    .basic-grey .Companies ul li.top {
+        position:absolute;
+        top:0;
+    }
+    a:link,a:visited{
+        text-decoration: none;
+        color: black;
+    }
+    /* 主要内容 */
+    .tab_content .dom{
+        margin-top: 8%;
+        /*margin-left: 6%;*/
+        display: none;
+    }
+    .tab_content .dom ul li{
+        font-size: 18px;
+        float: left;
+        margin: 15px 10px;
+        width: 100%;
+    }
+    .dom label{
+        position: absolute;
+        margin-top: 5px;
+    }
+    .tab_header{
+        height: 33px;
+        text-align: center;
+        position: relative;
+    }
+    .tab_header ul{
+        width: 100%;
+        position: absolute;
+        left: -1px;
+        top: 15px;
+    }
+    .tab_header ul li{
+        float: left;
+        width: 98px;
+        height: 33px;
+        line-height: 33px;
+        padding: 0 1px;
+        border-bottom: 1px solid #dddddd;
+    }
+    .tab_header li.selected{
+        background-color: white;
+        font-weight: bolder;
+        border-bottom: 0;
+        border-left: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
+        padding: 0;
+    }
+    .tab_header ul li:hover{
+        color: red;
+    }
+</style>
+
+
+<body style="margin: 0 auto">
+
+<!-- 弹出查找输入框 -->
+<div style="display: none" id="find">
+    <div style="z-index: 1045;position: absolute;text-align: center;padding-top: 10px;padding-left: 15px">
+        <!-- 搜索 -->
+        <div class="g-container">
+            <form action="" class="basic-grey">
+                <div class="form-group">
+                    <div class="Companies">
+                        <form action="#" method="get" onsubmit="submitInfo()">
+                            <input id="Button1" onclick="submitInfo()" type="button" value="查找" style="position: fixed;z-index: 1045;
+                            border-radius: 20px;font-size: 42px;width: 150px;height: 100px;margin-left: 400px" />
+                            <input class="form-control" type="text" placeholder="请选择" id="js-groupId" style="width:650px;height: 100px;font-size: 42px" class="form-control">
+                            <input type="hidden" id="groupId">
+                            <ul id="groupid" style="width:650px;font-size: 42px;background-color: white" >
+                                <li data-id="827"><a href="javascript:void(0)">aaaaaaaaaaaaaaaa</a></li>
+                                <li data-id="826"><a href="javascript:void(0)">bbbbbbbbbbbbbbbb</a></li>
+                                <li data-id="825"><a href="javascript:void(0)">cccccccccccccccc</a></li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--灰色半透明背景-->
+<div id="tabBG" onclick="changeBG()" style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 1040;background-color: #000000;opacity: .75;display: none"></div>
+
+
+<!--标题-->
+<div style="background-color: #cf2626;height: 120px;width: 100%;text-align: center;">
+    <p style="color: white;font-size: 42px;padding-top: 30px;">江南新城</p>
+</div>
+<div class="index_title">
+    <p>江南新城今日头条</p>
+    <img src="image/icon/1.png">
+    <!--查找-->
+    <img src="image/icon/2.png" style="float: right;margin-right: 40px" onclick="changeFind()">
+</div>
+
+
+<!--选项卡-->
+<div id="loginTab" class="login_Tab" style="display: block;margin-top: 10px">
+    <!--选项的头部-->
+    <div id="tab-header" class="tab_header">
+        <ul>
+            <li class="selected"style="font-size: 32px;margin-left: 20px;">全部</li>
+            <li style="font-size: 32px;margin-left: 30px">公告</li>
+            <li style="font-size: 32px;margin-left: 30px;width: 200px">好人好事</li>
+            <li style="font-size: 32px;margin-left: 30px;width: 200px">招商引资</li>
+            <li style="font-size: 32px;margin-left: 30px;width: 200px">办事指南</li>
+        </ul>
+    </div>
+    <!-- 选项卡内容 -->
+    <div id="tab-content" class="tab_content">
+
+        <!--全部-->
+        <div class="dom" style="display: block;margin-top: 40px">
+            <!-- 轮播图 -->
+            <div id="index_Carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#index_Carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#index_Carousel" data-slide-to="1"></li>
+                    <li data-target="#index_Carousel" data-slide-to="2"></li>
+                </ol>
+                <!-- 轮播项目 -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="image/index3.jpg" alt="First">
+                    </div>
+                    <div class="item">
+                        <img src="image/index4.jpg" alt="Second">
+                    </div>
+                    <div class="item">
+                        <img src="image/index6.jpg" alt="Third">
+                    </div>
+                </div>
+                <!-- 轮播导航 -->
+                <a class="carousel-control left" href="#index_Carousel" data-slide="prev"></a>
+                <a class="carousel-control right" href="#index_Carousel" data-slide="next"></a>
+            </div>
+            <!--内容-->
+            <div id="list" style="padding: 30px 25px 25px 20px;">
+            </div>
+            <div style="height: 100px"></div>
+        </div>
+
+        <!--公告-->
+        <div class="dom">
+            <p style="font-size: 54px">公告</p>
+        </div>
+
+        <!--好人好事-->
+        <div class="dom">
+            <p style="font-size: 54px">好人好事</p>
+        </div>
+
+        <!--招商引资-->
+        <div class="dom">
+            <p style="font-size: 54px">招商引资</p>
+        </div>
+
+        <!--办事指南-->
+        <div class="dom">
+            <p style="font-size: 54px">办事指南</p>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    // 显示出查找输入框
+    function changeFind() {
+        var find = document.getElementById("find");
+        var tabBG = document.getElementById("tabBG");
+        find.style.display = "block";
+        tabBG.style.display = "block";
+        // findContent();
+    }
+    // 点击背景隐藏查找输入框
+    function changeBG() {
+        var find = document.getElementById("find");
+        var tabBG = document.getElementById("tabBG");
+        find.style.display = "none";
+        tabBG.style.display = "none";
+    }
+
+    // 查找
+    jQuery.expr[':'].Contains = function(a, i, m) {
+        return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+    };
+    function filterList(list) {
+        $('#js-groupId').bind('input propertychange', function() {
+            var filter = $(this).val();
+            if (filter) {
+                $matches = $(list).find('a:Contains(' + filter + ')').parent();
+                $('li', list).not($matches).slideUp();
+                $matches.slideDown();
+            } else {
+                $(list).find("li").slideDown();
+            }
+        });
+    }
+    var $j = jQuery.noConflict();
+    $j(function() {
+        filterList($("#groupid"));
+        $('#js-groupId').bind('focus', function() {
+            $('#groupid').slideDown();
+        }).bind('blur', function() {
+            $('#groupid').slideUp();
+        })
+        $('#groupid').on('click', 'li', function() {
+            $('#js-groupId').val($(this).text())
+            $('#groupId').val($(this).data('id'))
+            $('#groupid').slideUp()
+        });
+    });
+    // $(function() {
+    //     filterList($("#groupid"));
+    //     $('#js-groupId').bind('focus', function() {
+    //         $('#groupid').slideDown();
+    //     }).bind('blur', function() {
+    //         $('#groupid').slideUp();
+    //     })
+    //     $('#groupid').on('click', 'li', function() {
+    //         $('#js-groupId').val($(this).text())
+    //         $('#groupId').val($(this).data('id'))
+    //         $('#groupid').slideUp()
+    //     });
+    // });
+
+    //查找按钮，检查是否有输入内容
+    function submitInfo() {
+        // alert("aaa")
+        var groupId = document.getElementById("js-groupId").value;
+        if (groupId.length <=0){
+            alert("请输入内容后再查找！");
+        }else {
+            var find = document.getElementById("find");
+            var tabBG = document.getElementById("tabBG");
+            find.style.display = "none";
+            tabBG.style.display = "none";
+        }
+    }
+    //    获取后台数据
+    $(document).ready(function() {
+        $.ajax({
+            url : "https://www.easy-mock.com/mock/5aea779a9d0dc53dc5af4c22/jiannanxc/JianNanxc",//请求地址
+            dataType : "json",//数据格式
+            type : "get",//请求方式
+            async : true,//是否异步请求
+            success : function(data) {   //如何发送成功
+                var dataContent = data.data.con;
+                var html = "";
+                for(var i=0;i<dataContent.length;i++){    //遍历data数组
+                    var ls = dataContent[i];
+                    html +="<p style='font-size: 42px;margin-top: 35px'>"+ls.content+"</p><a  href='content.html'><button style='color: red;border: 1px solid red;float: right;font-size: 32px;padding: 10px;margin-right: 15px;background-color: white;border-radius: 10px;'>了解一下</button></a><p style='color: #6e6e6e;font-size: 38px'>物业管理处 "+ls.time+"</p>";
+                }
+                $("#list").html(html); //在html页面id=ulul的标签里显示html内容
+            },
+        })
+    })
+
+    //选项卡切换
+    // function $(id){
+    //     return typeof id === 'string' ? document.getElementById(id):id;
+    // }
+    // 当页面加载完毕
+     window.onload = function(){
+         // 拿到所有的标题(li标签) 和 标题对应的内容(div)
+         var titles = $('#tab-header li');
+         var divs = $('#tab-content dom');
+         // 判断
+         if(titles.length != divs.length)
+             return;
+         // 遍历
+         for(var i=0; i<titles.length; i++){
+             // 取出li标签
+             var li = titles[i];
+             li.id = i;
+             // 监听鼠标的移动
+             li.onmousemove = function(){
+                 for(var j=0; j<titles.length; j++){
+                     titles[j].className = '';
+                     divs[j].style.display = 'none';
+                 }
+                 this.className = 'selected';
+                 divs[this.id].style.display = 'block';
+             }
+         }
+     };
+</script>
+</html>
